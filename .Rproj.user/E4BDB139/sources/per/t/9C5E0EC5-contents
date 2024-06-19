@@ -1,0 +1,110 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Gene Expression Analysis
+
+## Overview
+This project investigates the impact of a new treatment compared to a placebo on gene expression across two different cell lines, with varying concentrations of a growth factor. The primary goal is to understand how these variables interact and affect gene expression, providing insights that could inform future experiments and potential therapeutic strategies.
+
+## Prerequisites
+To follow along with the analysis, you will need R installed on your system, along with several R packages including `readxl`, `dplyr`, `openxlsx`, `ggplot2`, `lme4`, `gt`, and a few others. RStudio is recommended for executing the scripts interactively, which makes the workflow more efficient and manageable.
+
+## Timeline and Tasks
+
+### March 4, 2024
+ **Request**: Dr. Karl Berator requested an initial analysis and some slides showing statistics and plots by COB March 22, 2024.
+
+**March 7, 2024**: 
+- **Data Preparation**:
+  - Loaded data from the provided Excel file.
+  - Cleaned and formatted the dataset to ensure compatibility with analysis scripts.
+  - Normalized treatment descriptions and converted text fields to categorical factors.
+
+**March 10, 2024**: 
+- **Statistical Analysis**:
+  - Performed an ANOVA to examine the interaction between treatment types and growth factor concentrations, aiming to identify significant effects on gene expression.
+
+**March 14, 2024**: 
+- **Visualization**:
+  - Generated several plots to visualize relationships between gene expression, treatment types, and growth factor concentrations, including scatter plots, line plots, and aggregated mean expression plots.
+
+**March 18, 2024**: 
+- **Summarizing Results**:
+  - Summarized and visualized results from statistical tests using tables and plots.
+
+**March 20, 2024**: 
+- **Reporting**:
+  - Compiled findings into slides for presentation, detailing the effects observed during the analysis.
+
+### April 2, 2024
+**Request**: Dr. Karl Berator requested a plot with specific formatting requirements (Times New Roman font, TIFF file format, 9in x 6in, 500 resolution) for a conference presentation by COB April 5, 2024.
+
+**April 4, 2024**: 
+- **Plot Adjustment**:
+  - Created a plot meeting the specified requirements.
+  - Used Times New Roman font and saved the plot as a TIFF file with the required dimensions and resolution.
+
+### May 20, 2024
+**Request**: Dr. Karl Berator requested a sample size calculation for a grant application due by May 5, 2024.
+
+**May 22, 2024**: 
+- **Sample Size Calculation**:
+  - Calculated the necessary sample size for achieving 90% power and a significance level of 0.05 for the linear regression analysis of gene expression predictors.
+
+### May 27, 2024
+**Request**: Dr. Karl Berator requested a detailed IMRaD report of a predictive model of gene expression by May 31, 2024.
+
+**May 28, 2024**: 
+- **Predictive Modeling**:
+  - Built three predictive models (Linear Regression, Support Vector Regression, and Mixed-Effects Model) to further explore the data.
+  - Assessed each model's performance using mean squared error (MSE), R-squared values (R²), AIC (Akaike Information Criterion), and BIC (Bayesian Information Criterion).
+
+**May 30, 2024**: 
+- **Reporting**:
+  - Compiled findings into a detailed IMRaD report, providing a clear summary of the data, methods, and results. This report includes interpretations and implications of the findings.
+
+## Results Interpretation
+The results from the analysis are interpreted in the context of the experimental setup. Key points include:
+- **Significant Interactions**: Identification of significant interactions between treatments and concentrations, indicating specific conditions that have a notable impact on gene expression.
+- **Model Performance**: Comparison of the predictive models to determine which model best captures the relationship between the variables and gene expression.
+- **Biological Insights**: Discussion on how the results can inform future experiments, potential therapeutic strategies, and broader biological implications.
+
+### Model Results and Interpretation
+
+| Model                     | Train MSE    | Test MSE     | Train R²  | Test R²   | AIC      | BIC      |
+|---------------------------|--------------|--------------|-----------|-----------|----------|----------|
+| Linear Regression         | 4.705172e-28 | 129.144337   | 1.0000000 | 0.4469569 | 345.7749 | 449.3018 |
+| Support Vector Regressor  | 6.722818e+01 | 65.840919    | 0.4055065 | 0.2443656 | 210.9959 | 266.6223 |
+| Mixed Effects Model       | 8.648636e-01 | 1.150103     | 0.9910363 | 0.9871387 | 254.4125 | 295.3925 |
+
+#### Linear Regression
+
+**Summary**: The Linear Regression model shows perfect fit on the training data but poor performance on the test data, indicated by a Train R² of 1.0 and a near-zero Train MSE, but a much higher Test MSE of 129.144337 and a Test R² of 0.447. The high AIC and BIC values further suggest that this model is not optimal. The model likely overfits the training data, capturing noise rather than the underlying pattern, leading to poor generalization.
+
+**Interpretation**: The model's overfitting nature indicates it captures the training data's specifics too well but fails to generalize to new data. This is a classic sign of a model that is too complex for the data it was trained on, resulting in poor predictive performance on unseen data.
+
+#### Support Vector Regressor
+
+**Summary**: The Support Vector Regressor (SVR) shows a more balanced performance between the training and test sets compared to the Linear Regression model. It has a Train MSE of 67.22818 and a Test MSE of 65.840919, with Train R² of 0.406 and Test R² of 0.244. The lower AIC and BIC values compared to the Linear Regression model indicate a better fit in terms of balancing model complexity and fit.
+
+**Interpretation**: The SVR model demonstrates better generalization than the Linear Regression model, but its relatively high MSE and lower R² values suggest it does not fully capture the complexity of the data. The model may benefit from further tuning or additional features to improve its performance.
+
+#### Mixed Effects Model
+
+**Summary**: The Mixed Effects Model performs exceptionally well, with low Train MSE (0.8648636) and Test MSE (1.150103), and high Train R² (0.9910363) and Test R² (0.9871387). These values indicate that the model fits the training data well and generalizes effectively to the test data. The AIC and BIC values are moderate, suggesting a good balance between model complexity and fit.
+
+**Interpretation**: The Mixed Effects Model's ability to account for both fixed effects and random effects makes it highly suitable for this data, which likely has hierarchical or grouped structures. This model captures the underlying patterns well and provides reliable predictions, making it the most effective model among the three.
+
+### Overall Conclusion
+
+**Summary**: Among the three models evaluated, the Mixed Effects Model stands out as the most effective. It achieves a balance between fitting the training data and generalizing to the test data, with low MSE and high R² values for both training and test sets. The Linear Regression model suffers from severe overfitting, while the Support Vector Regressor, though better at generalization, still does not perform as well as the Mixed Effects Model.
+
+**Recommendation**: Based on the evaluation metrics, the Mixed Effects Model is recommended for analyzing the impact of treatments on gene expression. It provides robust and reliable insights, making it a valuable tool for understanding the effects of different treatments and concentrations in a biological context.
+
+## Conclusion
+This project provides a thorough examination of the influence of experimental treatments on gene expression, utilizing advanced statistical techniques and effective data visualization. The findings contribute valuable insights into the biological effects of treatments and can serve as a basis for further scientific investigation. The comprehensive approach ensures that the results are robust and actionable, paving the way for future research and potential clinical applications.
+
+
